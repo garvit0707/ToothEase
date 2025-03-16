@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, TextInput} from 'react-native';
 import Svg, { Path, Text as SvgText } from 'react-native-svg';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import { SelectCountry } from 'react-native-element-dropdown';
@@ -66,10 +66,26 @@ const dropdown_data = [
 
 ]
 
+const dropdown_data2 = [
+  {
+    value:1,
+    label:"2 problem"
+  },
+  {
+    value:2,
+    label:"continous pain"
+  },
+  {
+    value:3,
+    label:"brushing issue"
+  },
+]
+
 const MedicalRecord = () => {
 
   const refRBSheet = useRef();
   const [country, setCountry] = useState('1');
+  const [secondProblem,setSecondProblem] = useState("1")
   const [selectedTeeth, setSelectedTeeth] = useState([]);
   const [count,setCount] = useState(0)
 
@@ -141,9 +157,10 @@ const MedicalRecord = () => {
           }
         }}
         >
-            <View style={{borderWidth:1,borderColor:"red",flexDirection:"row",alignItems:"center",paddingLeft:"5%"}}>
-              <TouchableOpacity style={{borderWidth:1,borderColor:"red",height:"35%",width:"8%",alignItems:"center",justifyContent:"center",backgroundColor:"blue",borderRadius:"50%"}}><Text style ={{color:"black"}}>{selectedTeeth}</Text></TouchableOpacity>
-              <Text style={{color:"black",margin:"5%",fontSize:20,fontWeight:"700"}}>{data}</Text>
+            <View style={{flexDirection:"row",alignItems:"center",paddingLeft:"5%"}}>
+              {console.log("the value of the selected teeth is given below as",selectedTeeth)}
+            {selectedTeeth.length && <TouchableOpacity style={{height:"35%",width:"8%",alignItems:"center",justifyContent:"center",backgroundColor:"blue",borderRadius:"50%"}}><Text style ={{color:"black"}}>{selectedTeeth}</Text></TouchableOpacity>}
+              <Text style={{color:"black",margin:"5%",fontSize:20,fontWeight:"700"}}>{selectedTeeth && data}</Text>
             </View>
 
           <SelectCountry
@@ -157,10 +174,34 @@ const MedicalRecord = () => {
             dropdownStyle ={styles.dropdownStyle}
             valueField="value"
             labelField="label"
+            
             onChange={e => {
           setCountry(e.value);
         }}
       />
+
+      <SelectCountry
+            style={styles.dropdown}
+            selectedTextStyle={styles.selectedTextStyle}
+            placeholderStyle={styles.placeholderStyle}
+            iconStyle={styles.iconStyle}
+            maxHeight={200}
+            value={null}
+            data={dropdown_data2}
+            dropdownStyle ={styles.dropdownStyle}
+            valueField="value"
+            labelField="label"
+            // renderSelectedItem={() => null
+            onChange={e => {
+          setSecondProblem(e.value);
+        }}
+      />  
+      <Text style={{marginHorizontal:"8%",marginVertical:"5%",fontWeight:"700",fontSize:14}}>
+        Notes <Text style ={{color:"gray"}}>(optional)</Text>
+      </Text>
+      <TextInput style ={{borderWidth:1,borderColor:"black",marginHorizontal:"8%",height:"24%",borderRadius:15,backgroundColor:"pink",textAlignVertical: "top",paddingLeft:"3%"}} placeholder='Type your concern here!!' placeholderTextColor={"red"}>
+
+      </TextInput>
       </RBSheet>
     </View>
   );
@@ -185,7 +226,7 @@ const styles = StyleSheet.create({
   dropdown: {
     margin: 16,
     height: 50,
-    width: 150,
+    width: 350,
     backgroundColor: '#EEEEEE',
     borderRadius: 22,
     paddingHorizontal: 8,
@@ -193,7 +234,7 @@ const styles = StyleSheet.create({
 
   dropdownStyle: {
     backgroundColor: "#fff", 
-    borderRadius: 10,
+    borderRadius: 22,
     padding: 10,
   },
  
