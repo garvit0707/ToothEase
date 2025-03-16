@@ -13,7 +13,7 @@ const Splash = () => {
 
     useEffect(() => {
         if(isvideofinished){
-            navigation.navigate('home');
+            navigation.navigate('home',navigation);
         }
     },[isvideofinished])
 
